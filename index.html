@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สุ่มลูกเต๋า 5 สี</title>
+
+<style>
+body{
+    font-family:sans-serif;
+    text-align:center;
+    background:#f4f4f4;
+    padding:20px;
+}
+
+h1{
+    color:#333;
+}
+
+button{
+    padding:12px 24px;
+    margin:10px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+#result{
+    margin-top:30px;
+    font-size:32px;
+    font-weight:bold;
+}
+
+#history{
+    margin-top:20px;
+    font-size:20px;
+}
+
+.item{
+    padding:8px;
+    margin:5px auto;
+    width:250px;
+    border-radius:10px;
+    background:white;
+}
+</style>
+</head>
+<body>
+
+<h1>🎲 สุ่มลูกเต๋า 5 สี</h1>
+
+<button onclick="drawDice()">สุ่ม</button>
+<button onclick="resetGame()">เริ่มใหม่</button>
+
+<div id="result">กดปุ่มสุ่ม</div>
+
+<div id="history"></div>
+
+<script>
+
+let dicePool = [];
+
+function createPool(){
+    return [
+        {color:"🟢 เขียว"},
+        {color:"🟠 ส้ม"},
+        {color:"⚪ ขาว"},
+        {color:"🟡 เหลือง"},
+        {color:"🔵 น้ำเงิน"}
+    ];
+}
+
+function randomFace(){
+    const faces = [1,1,2,2,3,3];
+    return faces[Math.floor(Math.random()*faces.length)];
+}
+
+function drawDice(){
+
+    if(dicePool.length === 0){
+        document.getElementById("result").innerHTML =
+            "สุ่มครบทั้ง 5 ลูกแล้ว";
+        return;
+    }
+
+    const index = Math.floor(Math.random()*dicePool.length);
+
+    const dice = dicePool.splice(index,1)[0];
+
+    const number = randomFace();
+
+    document.getElementById("result").innerHTML =
+        ${dice.color} → เลข ${number};
+
+    const history = document.getElementById("history");
+
+    history.innerHTML +=
+        <div class="item">${dice.color} = ${number}</div>;
+}
+
+function resetGame(){
+    dicePool = createPool();
+    document.getElementById("result").innerHTML =
+        "กดปุ่มสุ่ม";
+    document.getElementById("history").innerHTML = "";
+}
+
+resetGame();
+
+</script>
+
+</body>
+</html>
